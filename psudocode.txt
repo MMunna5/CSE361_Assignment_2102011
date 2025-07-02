@@ -1,0 +1,24 @@
+FUNCTION Encrypt(plaintext, key):
+    ciphertext = ""
+    FOR each char in plaintext:
+        decimal = ord(char)  // ASCII value
+        binary = convert_to_binary(decimal)
+        inverted = bitwise_NOT(binary)  // Invert all bits
+        shifted = left_shift(inverted, key)
+        index = convert_to_decimal(shifted) % 26
+        ciphertext += chr(65 + index)  // Map 0-25 to A-Z
+    RETURN ciphertext
+
+FUNCTION Decrypt(ciphertext, key):
+    plaintext = ""
+    FOR each char in ciphertext:
+        index = ord(char) - 65  // Convert back to 0-25
+        shifted = (index + 26 * key)  // Reverse shift (approximate)
+        binary = convert_to_binary(shifted)
+        original = bitwise_NOT(binary)
+        decimal = convert_to_decimal(original)
+        plaintext += chr(decimal)
+    RETURN plaintext
+
+FUNCTION bitwise_NOT(binary):
+    RETURN invert each bit of binary  // NOT gate operation
